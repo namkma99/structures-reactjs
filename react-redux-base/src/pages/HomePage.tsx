@@ -1,4 +1,4 @@
-import { TodoList } from '@/features/todo';
+import { TodoList } from '@/features/todo/components/TodoList';
 import { Card, CardContent } from '@/components/ui/card';
 import { useAppSelector } from '@/app/hooks';
 import { selectCurrentUser } from '@/features/auth/authSlice';
@@ -13,14 +13,14 @@ export const HomePage = () => {
         <p className="text-muted-foreground">Modern React Boilerplate</p>
       </div>
 
-      {user && (
+      {user ? (
         <Card className="border-primary/20 bg-primary/5">
           <CardContent className="flex items-center gap-2 p-4 font-medium text-primary">
             <span className="flex h-2 w-2 animate-pulse rounded-full bg-primary" />
             Welcome back, {user.name}!
           </CardContent>
         </Card>
-      )}
+      ) : null}
 
       <div className="space-y-6">
         <h2 className="text-2xl font-bold tracking-tight">Active Projects</h2>

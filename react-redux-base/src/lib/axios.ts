@@ -1,5 +1,6 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
 import { env } from '@/config/env';
+import { authTokenStorage } from '@/lib/storage';
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: env.API_URL,
@@ -12,7 +13,7 @@ const axiosInstance: AxiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = authTokenStorage.get();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -28,7 +29,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       // TODO: handle token refresh or redirect to /login
-      localStorage.removeItem('token');
+      authTokenStorage.clear();
     }
     // Normalize error shape for consistent catch blocks
     return Promise.reject(error.response?.data ?? error);

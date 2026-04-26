@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { LoginForm } from '@/features/auth';
+import { LoginForm } from '@/features/auth/components/LoginForm';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const LoginPage = () => {

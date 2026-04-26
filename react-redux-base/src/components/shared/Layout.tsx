@@ -2,7 +2,7 @@ import { Link, Outlet } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAppSelector, useAppDispatch } from '@/app/hooks';
 import { toggleTheme } from '@/features/app/appSlice';
-import { useLogout } from '@/features/auth';
+import { useLogout } from '@/features/auth/hooks/use-logout';
 import { selectCurrentUser } from '@/features/auth/authSlice';
 
 /**

@@ -23,7 +23,11 @@ export const useAppStore = create<AppState>()(
         user: null,
         setUser: (user) => set({ user }, false, 'setUser'),
       }),
-      { name: 'app-storage' }
+      {
+        name: 'app-storage',
+        version: 1,
+        partialize: (state) => ({ theme: state.theme, user: state.user }),
+      }
     ),
     {
       name: 'AppStore',

@@ -1,9 +1,9 @@
 /**
- * TodoList feature barrel export.
- * Import from '@/features/todo' instead of deep paths.
+ * Todo feature compatibility barrel.
+ * Prefer direct imports in app code to keep route chunks smaller.
  *
  * Example:
- *   import { TodoList, useTodos } from '@/features/todo';
+ *   import { TodoList } from '@/features/todo/components/TodoList';
  */
 export { TodoList } from './components/TodoList';
 export { useTodos, todoKeys } from './hooks/use-todos';

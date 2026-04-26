@@ -1,9 +1,9 @@
 /**
- * Auth feature barrel export.
- * Import from '@/features/auth' instead of deep paths.
+ * Auth feature compatibility barrel.
+ * Prefer direct imports in app code to keep route chunks smaller.
  *
  * Example:
- *   import { LoginForm, useLogin } from '@/features/auth';
+ *   import { LoginForm } from '@/features/auth/components/LoginForm';
  */
 export { LoginForm } from './components/LoginForm';
 export { useLogin } from './hooks/use-login';

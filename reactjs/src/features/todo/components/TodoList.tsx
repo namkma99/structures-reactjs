@@ -1,14 +1,19 @@
+import { useDeferredValue } from 'react';
 import { useTodos } from '../hooks/use-todos';
 import { useTodoViewStore } from '../stores/use-todo-view-store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Search } from 'lucide-react';
+import Search from 'lucide-react/dist/esm/icons/search';
 
 export const TodoList = () => {
   const { data, isLoading, isError, error } = useTodos();
-  const { filter, setFilter, searchQuery, setSearchQuery } = useTodoViewStore();
+  const filter = useTodoViewStore((state) => state.filter);
+  const setFilter = useTodoViewStore((state) => state.setFilter);
+  const searchQuery = useTodoViewStore((state) => state.searchQuery);
+  const setSearchQuery = useTodoViewStore((state) => state.setSearchQuery);
+  const deferredSearchQuery = useDeferredValue(searchQuery.trim().toLowerCase());
 
   if (isLoading)
     return (
@@ -19,13 +24,16 @@ export const TodoList = () => {
       <div className="p-8 text-center text-destructive">Error: {(error as Error).message}</div>
     );
 
-  const filteredData = data
-    ?.filter((todo) => {
-      if (filter === 'completed') return todo.completed;
-      if (filter === 'pending') return !todo.completed;
-      return true;
-    })
-    .filter((todo) => todo.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  const visibleTodos = [];
+
+  for (const todo of data ?? []) {
+    if (filter === 'completed' && !todo.completed) continue;
+    if (filter === 'pending' && todo.completed) continue;
+    if (deferredSearchQuery && !todo.title.toLowerCase().includes(deferredSearchQuery)) continue;
+
+    visibleTodos.push(todo);
+    if (visibleTodos.length === 10) break;
+  }
 
   return (
     <Card className="border-none bg-transparent shadow-none">
@@ -59,7 +67,7 @@ export const TodoList = () => {
         </div>
 
         <ul className="space-y-3">
-          {filteredData?.slice(0, 10).map((todo) => (
+          {visibleTodos.map((todo) => (
             <li
               key={todo.id}
               className={`flex items-center justify-between rounded-xl border p-4 transition-all hover:bg-accent/50 ${
@@ -76,11 +84,11 @@ export const TodoList = () => {
               </Badge>
             </li>
           ))}
-          {filteredData?.length === 0 && (
+          {visibleTodos.length === 0 ? (
             <li className="rounded-xl border-2 border-dashed py-8 text-center text-muted-foreground">
               No tasks matched your search.
             </li>
-          )}
+          ) : null}
         </ul>
       </CardContent>
     </Card>

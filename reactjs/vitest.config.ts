@@ -1,5 +1,4 @@
 import { defineConfig } from 'vitest/config';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
 /**
  * Vitest configuration (separate from vite.config.ts for clarity).
@@ -8,7 +7,9 @@ import tsconfigPaths from 'vite-tsconfig-paths';
  * Coverage: pnpm test:coverage
  */
 export default defineConfig({
-  plugins: [tsconfigPaths()],
+  resolve: {
+    tsconfigPaths: true,
+  },
   test: {
     environment: 'jsdom',
     globals: true,

@@ -1,7 +1,7 @@
 import { Link, Outlet } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAppStore } from '@/stores/use-app-store';
-import { useLogout } from '@/features/auth';
+import { useLogout } from '@/features/auth/hooks/use-logout';
 
 /**
  * Root layout — wraps all authenticated app pages.

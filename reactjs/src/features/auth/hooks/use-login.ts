@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useAppStore } from '@/stores/use-app-store';
+import { authTokenStorage } from '@/lib/storage';
 import { authApi } from '../api/auth';
 import type { LoginPayload } from '../api/types';
 
@@ -18,7 +19,7 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: (payload: LoginPayload) => authApi.login(payload),
     onSuccess: ({ user, token }) => {
-      localStorage.setItem('token', token);
+      authTokenStorage.set(token);
       setUser(user);
     },
   });

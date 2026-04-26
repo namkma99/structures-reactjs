@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useAppStore } from '@/stores/use-app-store';
 import { queryClient } from '@/lib/react-query';
+import { authTokenStorage } from '@/lib/storage';
 import { authApi } from '../api/auth';
 
 /**
@@ -18,7 +19,7 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: authApi.logout,
     onSettled: () => {
-      localStorage.removeItem('token');
+      authTokenStorage.clear();
       setUser(null);
       queryClient.clear(); // invalidate all cached queries on logout
     },
